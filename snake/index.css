@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    width: 500px;
+    margin: 0 auto;
+}
+
+#score{
+    text-align: center;
+    font-size: 20px;
+    color: salmon;
+}
+
+#map{
+    margin: 0 auto;
+    border: 1px solid lightblue;
+}
+
+.row{
+    height: 20px;
+}
+
+.col{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    float: left;
+    box-sizing: border-box;
+}
+
+.snakeColor{
+    background-color: greenyellow;
+}
+
+.egg{
+    background-color: salmon;
+}
+
