@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/iScroll/5.2.0/iscroll.js"></script>
+    <link rel="stylesheet" type="" href="index.css">
+</head>
+<body>
+    <div class="container" id="scroll">
+        <div class="scroller">
+            <ul>
+                <li><a href="#">item 1</a></li>
+                <li><a href="#">item 2</a></li>
+                <li><a href="#">item 3</a></li>
+                <li><a href="#">item 4</a></li>
+                <li><a href="#">item 5</a></li>
+                <li><a href="#">item 6</a></li>
+                <li><a href="#">item 7</a></li>
+                <li><a href="#">item 8</a></li>
+                <li><a href="#">item 9</a></li>
+                <li><a href="#">item 10</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <p>main</p>
+        <!--margin重叠  -->
+    </div>
+    <div class="clearfix">防止底部内容被挡住</div>
+    <div class="footer">
+        <ul>
+            <li class="tab-item"><a href="#">主页</a></li>
+            <li class="tab-item"><a href="">会员中心</a></li>
+        </ul>
+    </div>
+
+    <script>
+        $(function(){
+            var $scroller = $('.scroller')
+            var li = $('.scroller li')
+            var width = 0
+
+            //遍历各个li，计算总宽度
+            // 因为菜单一般是项数不确定的，故而外部容器宽度需要用js遍历计算后再赋值
+            for (var i = 0; i < li.length; i++) {
+                // offsetWidth = width + padding + border
+                width += li[i].offsetWidth;
+            }
+            console.log(width)//575
+            // 因为ul默认有个padding，所以需要在加一个宽度，完全可以把padding去掉，不过此时还需重新赋值
+            $scroller.width(width + li[0].offsetWidth);//动态赋值总宽度
+            console.log($scroller.width())//632
+            //iscroll初始化
+            var myScroll = new IScroll('#scroll', {
+                scrollX: true,//x轴可以滚动
+                scrollY: false
+            });
+
+        })
+    </script>
+</body>
+</html>

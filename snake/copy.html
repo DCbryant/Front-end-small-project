@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>原生js版贪吃蛇</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+}
+
+.container {
+width: 500px;
+margin: 0 auto;
+}
+
+#score {
+text-align: center;
+font-size: 20px;
+color: red;
+}
+
+#map {
+margin: 0 auto;
+border: 1px solid lightblue;
+}
+
+/*每行*/
+.row {
+height: 20px;
+}
+
+/*每列，每个单元格是20x20*/
+.col {
+width: 20px;
+height: 20px;
+border: 1px solid #ccc;
+float: left;
+box-sizing: border-box; /*border和padding计算入width之内*/
+}
+
+/*小蛇颜色，假设是小青蛇*/
+.snakeColor {
+background: greenyellow;
+}
+/*蛋*/
+.egg {
+background:pink;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+<h1>贪吃蛇游戏</h1>
+
+<div>得分: <span id="score">0</span></div>
+<button id="start">开始</button>
+<button id="pause">暂停</button>
+<div id="map">
+
+</div>
+</div>
+
+</body>
+</html>
+<script>
+/*************************绘制地图******************************/
+var map = document.getElementById('map');
+var rowNum = 25;//总行数
+var colNum = 20;//总列数
+var mapWidth = colNum * 20 + 'px';//地图宽度
+var mapHeight = rowNum * 20 + 'px';//地图高度
+map.style.width = mapWidth;
+map.style.height = mapHeight;
+
+
+//创建一个二维数组，用来记录地图上所有div的坐标位置
+var arr = [];
+
+(function () {
+//通过双重for循环绘制地图
+//外层循环行
+for (var i = 0; i < rowNum; i++) {
+//创建行div
+var rowDiv = document.createElement('div');
+//设置div样式
+rowDiv.className = 'row';
+//将行div填入地图map中
+map.appendChild(rowDiv);
+//创建一个行级数组，
+var rowArray = [];
+//内层循环
+for (var j = 0; j < colNum; j++) {
+//创建每一行中的方块div
+var colDiv = document.createElement('div');
+//设置css样式
+colDiv.className = 'col';
+//将div添加到当前行中
+rowDiv.appendChild(colDiv);
+//同时将每个单元方块添加到行数组中
+rowArray.push(colDiv);
+}
+//内循环结束，将行数组添加到大数组中
+arr.push(rowArray);
+}
+})();
+
+/*********************绘制小蛇***************************/
+
+// 因为蛇是不断长大的，我们用个数组表示
+var snake = [];
+(function () {
+//假设蛇身是占3个单元格
+for (var i = 0; i < 3; i++) {
+//在第一行画出三个绿色单元格，表示小青蛇
+arr[0][i].className = 'col snakeColor';
+//压入数组
+snake[i] = arr[0][i];
+}
+})();
+/**********************画出蛋****************************/
+var eggX = 0;//蛋的起始位置,对应的是arr数组的下标
+var eggY = 0;//蛋的起始位置,对应的是arr数组的下标
+
+createNewEgg();// 在游戏开始的时候生成新的蛋
+// 工具函数，定义一个生成min,max之间的随机数函数
+function random(min, max) {
+return Math.floor(Math.random() * (max - min + 1) + min);
+}
+function createNewEgg() {
+//蛋的坐标位置是随机产生的
+eggX = random(0, colNum - 1);
+eggY = random(0, rowNum - 1);
+
+// 如果生成的坐标跟蛇身的位置重合，那就得重新生成一个蛋
+//一般会有两种情况
+// 一种是，初始化生成的位置与蛇身重合，需要重新造蛋
+//另一种是，蛇吃掉了蛋之后，蛋变为青色，也就是蛇身的一部分，这时也需要重新造蛋
+if (arr[eggY][eggX].className == 'col snakeColor') {
+createNewEgg();// 重新随机新的蛋
+} else {
+arr[eggY][eggX].className = 'col egg';//造蛋
+}
+}
+
+
+/*********************事件监听****************************/
+
+var x = 2;//蛇头位置，对应arr数组下标
+var y = 0;//蛇头位置，综合起来就表示arr[y][x],也就是arr[0][2]
+var scoreCount = 0;//积分，吃了多少个蛋
+var direction = 'right';//记录蛇移动的方向,初始为向右
+var changeDir = true;//判断是否改变蛇的移动方向
+var delayTimer = null;
+var score = document.getElementById('score');
+//添加键盘事件监听方向键来改变蛇的移动方向
+document.onkeydown = function(event){
+event = event || window.event;
+//先判断是否需要改变方向,true表示需要,false表示不需要
+if(!changeDir){
+return;
+}
+//通过keyCode确定蛇要移动的方向
+switch (event.keyCode) {
+case 37:
+direction = 'left';// 向左
+break;
+case 38:
+direction = 'up';// 向上;
+break;
+case 39:
+direction = 'right';// 向右
+break;
+case 40:
+direction = 'down';// 向下
+break;
+}
+//为了合理处理蛇的移动,需要判断蛇头和蛇身
+//假设蛇向右移动,点方向键左,右键都不需要做出任何响应
+if (direction == 'right' && event.keyCode == 37) {
+return;// 终止事件执行
+}
+if (direction == 'left' && event.keyCode == 39) {
+return;
+}
+if (direction == 'up' && event.keyCode == 40) {
+return;
+}
+if (direction == 'down' && event.keyCode == 38) {
+return;
+}
+changeDir = false;
+//300ms之后响应改变方向的动作
+delayTimer = setTimeout(function() {
+// 设置是否需要改变方向
+changeDir = true;
+}, 300);
+}
+
+var moveTimer = setInterval(function(){snakeMove();}, 300);
+//控制蛇移动函数
+function snakeMove(){
+//控制蛇头的位置
+switch(direction){
+case 'left':
+x--;
+break;
+case 'right':
+x++;
+break;
+case 'up':
+y--;
+break;
+case 'down':
+y++;
+break;
+}
+//判断游戏是否结束
+//触到边界的情况
+if (x < 0 || y < 0 || x >= colNum || y >= rowNum) {
+alert('Game Over');
+// 结束蛇移动的定时器
+clearInterval(moveTimer);
+return;// 终止键盘事件
+}
+//蛇吃到自己的情况
+for(var i=0;i<snake.length;i++){
+if(snake[i] == arr[y][x]){
+alert('Game Over');
+// 结束蛇移动的定时器
+clearInterval(moveTimer);
+return;
+}
+}
+//如果蛋的位置，跟蛇头位置重合，表示蛇碰到蛋了，蛇身需要加长一个单元格
+if(eggX == x && eggY == y){
+arr[eggY][eggX].className = 'col snakeColor';//在蛋的位置绘制青色单元格
+snake.push(arr[eggY][eggX]);//数组增加一个元素，表示加长蛇身
+scoreCount++;//分数加1
+//更新分数
+score.innerHTML = scoreCount;
+//创造一个新蛋
+createNewEgg();
+}else{
+//蛇移动的实现
+//需要不断的去掉蛇尾，绘制新的青色单元格，看起来就是在不断移动了
+snake[0].className = 'col';
+//出列，表示将蛇尾div从数组移除
+snake.shift();
+arr[y][x].className = 'col snakeColor';//绘制新的青色单元格
+snake.push(arr[y][x]);//将单元格移入snake数组。
+}
+}
+/******************按钮控制事件*******************************/
+var pause = document.getElementById('pause');
+var start = document.getElementById('start');
+// 添加暂停按钮
+pause.onclick = function() {
+clearInterval(moveTimer);
+};
+// 添加开始按钮
+start.onclick = function() {
+clearInterval(moveTimer);
+moveTimer = setInterval(function(){snakeMove();}, 300);
+};
+</script>

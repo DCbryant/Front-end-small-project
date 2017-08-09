@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="" href="index.css">
+</head>
+<body>
+    <div id="container" class="container" style="left:0px;">
+        <ul class="list" id="list">
+            <li><a href="#">item 1</a></li>
+            <li><a href="#">item 2</a></li>
+            <li><a href="#">item 3</a></li>
+            <li><a href="#">item 4</a></li>
+            <li><a href="#">item 5</a></li>
+            <li><a href="#">item 6</a></li>
+            <li><a href="#">item 7</a></li>
+            <li><a href="#">item 8</a></li>
+            <li><a href="#">item 9</a></li>
+            <li><a href="#">item 10</a></li>
+        </ul>
+    </div>
+
+    <script>
+        
+        var con = document.getElementById('container');
+        var list = document.getElementById('list');
+        var li = $('li');
+        var width = 0;//li的总宽度
+        for(var i=0;i<li.length;i++){
+            width += li[i].offsetWidth;
+        }
+        console.log(width)
+
+        $('#list').css('width',width); //设置ul容器的总宽度
+
+        //鼠标左右拖拽事件
+        var mouseOffset = null;//鼠标偏移量
+        //当鼠标按下时触发
+        list.onmousedown = function (event) {
+        var startX = event.clientX;//鼠标开始位置
+        console.log(startX);
+        //鼠标移动时触发
+        list.onmousemove = function (ev) {
+        var endX = ev.clientX;//鼠标结束位置
+
+        console.log(endX);
+
+        console.log(endX - startX);
+
+        mouseOffset += (endX - startX)*100;//通过打印发现鼠标位移的差值太小，只有个位数，所以此处乘100，增大偏移值
+
+        var view_width = con.offsetWidth;//可视窗口的宽度，因为设置了百分比，所以要计算一下
+
+        var total_offset = (width - view_width);//可偏移的距离范围
+
+
+        console.log(mouseOffset);
+        if(mouseOffset > 0){
+
+            mouseOffset = 0;
+
+        }else if(mouseOffset < -total_offset){
+
+            mouseOffset = -total_offset;
+
+        }
+
+        $('#list').css('transform','translate('+mouseOffset+'px, 0px) ');
+
+        //销毁鼠标移动事件
+            list.onmousemove = null;
+        };
+
+        };
+
+        var touchStartX = null;//开始位置
+        var touchEndX = null;//结束位置
+        var touchOffset = null;//偏移量
+        list.addEventListener('touchstart', function (event) {
+
+        event.preventDefault();// 阻止浏览器默认事件
+
+            var touch = event.targetTouches[0];
+
+            touchStartX = touch.clientX;//手指开始位置
+        }, false);
+
+        //移动端的左右滑动事件
+        list.addEventListener('touchmove', function (event) {
+            event.preventDefault();// 阻止浏览器默认事件
+
+            var touch = event.targetTouches[0];
+
+            touchEndX = touch.clientX;//手指结束位置
+
+            touchOffset += touchEndX - touchStartX;
+            var view_width = con.offsetWidth;//可视窗口的宽度，因为设置了百分比，所以要计算一下
+
+            var total_offset = (width - view_width);//可偏移的距离范围
+
+            console.log(touchOffset);
+
+            if(touchOffset > 0){
+
+            touchOffset = 0;
+
+            }else if(touchOffset < -total_offset){
+
+            touchOffset = -total_offset;
+            }
+
+            $('#list').css('transform','translate('+touchOffset+'px, 0px) ');
+        }, false);
+
+
+        
+
+
+    </script>
+</body>
+</html>

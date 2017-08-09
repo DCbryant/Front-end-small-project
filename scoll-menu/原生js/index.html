@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>原生实现左右滚动菜单</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<link rel="stylesheet" type="" href="index.css">
+
+</head>
+<body>
+    <div class="container" id="container">
+        <ul class="list" id="list" style="left:0px;">
+            <li><a href="#">item 1</a></li>
+            <li><a href="#">item 2</a></li>
+            <li><a href="#">item 3</a></li>
+            <li><a href="#">item 4</a></li>
+            <li><a href="#">item 5</a></li>
+            <li><a href="#">item 6</a></li>
+            <li><a href="#">item 7</a></li>
+            <li><a href="#">item 8</a></li>
+        </ul>
+    </div>
+    <script>
+        var con = document.getElementById('container');
+        var list = document.getElementById('list');
+        var li = $('li');
+        var width = 0;//li的总宽度
+        for(var i=0;i<li.length;i++){
+            width += li[i].offsetWidth;
+        }
+        console.log(width)
+
+        $('#list').css('width',width); //设置ul容器的总宽度
+        //切换函数
+        function circle(offset) {
+
+            var view_width = con.offsetWidth;//可视窗口的宽度，因为设置了百分比，所以要计算一下
+            var total_offset = Math.floor((width - view_width)/100)*100;//可偏移的距离范围
+            console.log(total_offset,view_width)//200 520
+            //偏移距离
+            var newLeft = parseInt(list.style.left) + offset;
+
+            //负向移动，不要偏移
+            if(newLeft >0){
+                newLeft = 0;
+            }
+            //正向移动，到了结束位置，停止偏移
+            else if(-newLeft >= total_offset){
+                newLeft = -total_offset;
+            }
+
+            //菜单偏移
+            list.style.left = newLeft + 'px';
+
+        }
+
+        //鼠标左右拖拽事件
+        var direction = null;//左右滑动方向
+        //当鼠标按下时触发
+        list.onmousedown = function (event) {
+            var startX = event.clientX;//鼠标开始位置
+            //鼠标移动时触发
+            list.onmousemove = function (ev) {
+                var endX = ev.clientX;//鼠标结束位置
+
+                //向右
+                if (endX - startX <= 0) {
+                    direction = 'right';
+                    console.log(startX,endX)//-500 1240
+                }
+                else if (endX - startX > 0) {
+                    direction = 'left';
+                }
+
+                if (direction == "right") {
+                    circle(-100);//滑动
+                } else if (direction == "left") {
+                    circle(100);//滑动
+                }
+                //销毁鼠标移动事件
+                list.onmousemove = null;
+            };
+
+        };
+
+        var touchStartX = null;
+        var touchEndX = null;
+        var direction2 = null;
+        list.addEventListener('touchstart', function (event) {
+            event.preventDefault();// 阻止浏览器默认事件
+            var touch = event.targetTouches[0];
+            touchStartX = touch.clientX;//手指开始位置
+        }, false);
+
+        //移动端的左右滑动事件
+        list.addEventListener('touchmove', function (event) {
+            event.preventDefault();// 阻止浏览器默认事件
+            var touch = event.targetTouches[0];
+
+            touchEndX = touch.clientX;//手指结束位置
+            //向右
+            if (touchEndX - touchStartX <= 0) {
+                direction2 = 'right';
+            }
+            else if (touchEndX - touchStartX > 0) {
+                direction2 = 'left';
+            }
+
+            if (direction2 == "right") {
+                circle(-100);//滑动
+            } else if (direction2 == "left") {
+                circle(100);//滑动
+            }
+
+
+        }, false);
+    </script>
+</body>
+</html>
