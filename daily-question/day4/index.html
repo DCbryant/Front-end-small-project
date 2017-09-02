@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .ct{
+            width: 400px;
+            height: 30px;
+        }
+        .ct .circle{
+            width: 30px;
+            height: 30px;
+            border:1px solid #000;
+            border-radius: 50%;
+            box-sizing: border-box;
+            float: right;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        /* 精髓 */
+        .circle:hover,
+        .circle:hover~.circle{
+            background-color: salmon;
+        }
+    </style>
+</head>
+<body>
+    <!-- 原理：将所有元素换个位置再利用~这个选择器即可，比如右浮动，又比如用flex：order调换顺序又或者flex-direction: row-reverse; -->
+    <div class="ct">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+</body>
+</html>

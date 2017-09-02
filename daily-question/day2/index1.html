@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .tabs{
+            width: 100%;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        input{
+            opacity: 0;
+        }
+        label{
+            float: left;
+            margin-right: 2px;
+            padding: 1.5% 3%;
+            background-color: #999;
+            color: #fff;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+        }
+        label:hover{
+            background-color: salmon;
+        }
+        input:checked+label{
+            background-color: salmon;
+            color: aqua;
+        }
+        .tabs input:nth-of-type(1):checked~.panels .panel:nth-child(1), 
+        .tabs input:nth-of-type(2):checked~.panels .panel:nth-child(2), 
+        .tabs input:nth-of-type(3):checked~.panels .panel:nth-child(3), 
+        .tabs input:nth-of-type(4):checked~.panels .panel:nth-child(4){
+            opacity: 1;
+            transition: .8s;
+        }
+
+        .panels{
+            float: left;
+            clear: both;
+            position: relative;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 0 10px 10px 10px;
+            min-height: 315px;
+        }
+        .panel{
+            position: absolute;
+            padding: 4%;
+            width: 100%;
+            opacity: 0;
+            background-color: #fff;
+            border-radius: 0 10px 10px 10px;
+            box-sizing: border-box;
+        }
+
+        .panel h2{
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <article class="tabs">
+            
+        <input checked id="one" name="tabs" type="radio">
+        <label for="one">选项卡1</label>
+
+        <input id="two" name="tabs" type="radio" value="Two">
+        <label for="two">选项卡2</label>
+
+        <input id="three" name="tabs" type="radio">
+        <label for="three">选项卡3</label>
+
+        <input id="four" name="tabs" type="radio">
+        <label for="four">选项卡4</label>
+
+        <div class="panels">
+
+            <div class="panel">
+                <h2>水调歌头·明月几时有</h2>
+                <p>
+                    明月几时有，把酒问青天。
+                    不知天上宫阙，今夕是何年？
+                    我欲乘风归去，又恐琼楼玉宇，
+                    高处不胜寒。
+                    起舞弄清影，何似在人间！
+                    
+                    转朱阁，低绮户，照无眠。
+                    不应有恨，何事长向别时圆？
+                    人有悲欢离合，月有阴晴圆缺，
+                    此事古难全。
+                    但愿人长久，千里共婵娟
+                </p>
+            </div>
+
+            <div class="panel">
+                <h2>短歌行</h2>
+                <p>
+                    对酒当歌，人生几何！譬如朝露，去日苦多。 慨当以慷，忧思难忘。何以解忧？唯有杜康。 青青子衿，悠悠我心。但为君故，沉吟至今。 
+                    呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙。 明明如月，何时可掇？忧从中来，不可断绝。 越陌度阡，枉用相存。契阔谈讌，心念旧恩。
+                    月明星稀，乌鹊南飞。绕树三匝，何枝可依？ 山不厌高，海不厌深。周公吐哺，天下归心。
+                </p>
+            </div>
+
+            <div class="panel">
+                <h2>定风波·莫听穿林打叶声</h2>
+                <p>
+                    三月七日，沙湖道中遇雨。雨具先去，同行皆狼狈，余独不觉，已而遂晴，故作此词。
+                    莫听穿林打叶声，何妨吟啸且徐行。竹杖芒鞋轻胜马，谁怕？一蓑烟雨任平生。
+                    料峭春风吹酒醒，微冷，山头斜照却相迎。回首向来萧瑟处，归去，也无风雨也无晴
+                </p>
+
+            </div>
+
+            <div class="panel">
+                <h2>将进酒·君不见黄河之水天上来</h2>
+                <p>
+                    君不见黄河之水天上来，奔流到海不复回。
+                    君不见高堂明镜悲白发，朝如青丝暮成雪。
+                    人生得意须尽欢，莫使金樽空对月。
+                    天生我材必有用，千金散尽还复来。
+                    烹羊宰牛且为乐，会须一饮三百杯。
+                    岑夫子，丹丘生，将进酒，杯莫停。
+                    与君歌一曲，请君为我侧耳听。
+                    钟鼓馔玉不足贵，但愿长醉不复醒。
+                    古来圣贤皆寂寞，惟有饮者留其名。
+                    陈王昔时宴平乐，斗酒十千恣欢谑。
+                    主人何为言少钱，径须沽取对君酌。
+                    五花马，千金裘，
+                    呼儿将出换美酒，与尔同销万古愁。
+                </p>
+
+            </div>
+
+        </div>
+
+    </article>
+</body>
+</html>
