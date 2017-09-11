@@ -3,11 +3,14 @@ function parseQuery(str){
         var obj = {}
         for(var i=0;i<arr.length;i++){
             var strArr = arr[i].split('=')
-            console.log(strArr)
             if(obj[strArr[0]]){
-                var item = obj[strArr[0]]
-                obj[strArr[0]] = []
-                obj[strArr[0]].push(item,strArr[0])
+                if(Array.isArray(obj[strArr[0]])){
+                  obj[strArr[0]].push(strArr[1])
+                }else{
+                   var item = obj[strArr[0]]
+                   obj[strArr[0]] = []
+                   obj[strArr[0]].push(item,strArr[0])
+                }
             }else{
                 obj[strArr[0]] = strArr[1]
             }
@@ -18,6 +21,6 @@ function parseQuery(str){
         }
         return obj
 }
-var search = 'name=sa&age=21&address=qwe&address=dc&kaka'
+var search = 'name=sa&age=21&address=qwe&address=dc&address=bryant&kaka'
 parseQuery(search)
 console.log(parseQuery(search))
