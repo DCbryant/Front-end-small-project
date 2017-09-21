@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .layout{
+             width: 1140px;
+            margin: 0 auto; 
+        }
+        body{
+            margin: 0;
+        }
+        ol,ul,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            color:#000;
+        }
+        .clearfix{
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .fl{
+            float: left;
+        }
+        .fr{
+            float: right;
+        }
+        nav{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 70px;
+            line-height: 70px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 10;
+        }
+        .wrapper>nav>.logo{
+            margin-left: 62px;
+            font-size: 30px;
+            letter-spacing: 8px;
+            color:#00805e;
+        }
+        .wrapper>nav>ul{
+            /* margin-right: 62px,除去ul默认margin，否则li不能垂直居中 */
+            margin: 0 62px 0 0;
+        }
+        .wrapper>nav li{
+            float: left;
+            margin-left: 32px;
+        }
+        .wrapper>nav li a{
+            color: #eee;
+            font-size: 20px;
+        }
+        .wrapper>nav li a:hover{
+            color: orangered;
+        }
+        header{
+            height: 100vh;
+            background: url('https://i.loli.net/2017/07/23/59743779535a5.jpg');
+            background-size: cover;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
+        }
+        .header-content{
+            margin: 0 auto;
+            padding-top: 100px;
+            text-align: center;
+        }
+        .header-content p:nth-child(1){
+                font-style: italic;
+                font-size: 40px;
+                font-weight: bold;
+                line-height: 40px;
+                margin-bottom: 25px; 
+                color: #ccb9b9;
+                letter-spacing: 20px;
+        }
+        .header-content p:nth-child(2){
+            font-weight: bold;
+            font-size: 70px;
+            margin-top: 0;
+            margin-bottom: 55px;
+            color: #ccb9b9;
+            letter-spacing: 5px;
+        }
+        .header-content a{
+            display: inline-block;
+            background-color: #c0c0c0;
+            font-size: 18px;
+            padding: 20px 40px;
+            border-radius: 3px;
+            color: #fff;
+            box-shadow: 2px 4px 6px rgba(0,0,0,0.1);
+        }
+        .header-content a:hover{
+            color: orangered;
+        }
+
+        .main-character{
+            height: 100vh;
+            margin: 160px 0;
+            text-align:center;
+        }
+        .main-character h2{
+            font-size: 40px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .main-character>p{
+            font-size: 16px;
+            font-style: italic;
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: #777;
+        }
+        .main-character .main-character-list{
+            height: 300px;
+        }
+        .main-character-list .character{
+            width: 340px;
+            height: 360px;
+            margin-right: 60px;
+            border-radius: 5px;
+        }
+        .main-character-list .character:nth-child(3){
+            margin-right: 0;
+        }
+        .character .avater img{
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+        }
+        .main-character-list .character p{
+            color: #777;
+        }
+        .gintama{
+            background-color: rgba(192,192,192,0.8);
+            box-shadow: 4px 4px 10px rgba(192,192,192,0.5);
+        }
+        .kagura{
+            background-color: rgba(213, 118, 101, 0.8);
+            box-shadow: 4px 4px 10px rgba(213, 118, 101, 0.5);
+        }
+        .shinpachi{
+            background-color: rgba(232, 205, 180, 0.8);
+            box-shadow: 4px 4px 4px rgba(232, 205, 180, 0.5);
+        }
+        
+
+        .colleagues-picture{
+            height: 1000px;
+            margin: 0 60px;
+            text-align:center;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .colleagues-picture h2{
+            font-size: 40px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .colleagues-picture>p{
+            font-size: 16px;
+            font-style: italic;
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: #777;
+        }
+        .colleagues-picture .img-list{
+            height: 450px;
+            padding-left: 0;
+            margin-left: -20px;
+        }
+        .colleagues-picture .img-list li{
+            margin-left: 20px;   
+            margin-top: 10px;  
+            width: 367px;      
+            height: 350px;
+            padding: 0;
+            background-color: #fff;
+        }   
+        /*200*3+20*3=640-(-20)  */
+        /*x*3+20*3 = 1143-(-20)  */
+        /* .colleagues-picture .img-list li:nth-child(1){
+            margin-left: 0;
+        }
+        .colleagues-picture .img-list li:nth-child(4){
+            margin-left: 0;
+        } */
+        .desc img{
+            width: 367px;
+            height: 240px;    
+                  
+        }
+        .desc a{
+            position: relative; 
+        }
+        .desc a:hover::after{
+            content: '';
+            position: absolute;
+            top: -224px;
+            left: 0;
+
+            width: 367px;
+            height: 240px;
+            background-color: rgba(255, 69, 0, 0.5);
+
+        }
+        .desc h4{
+            margin-bottom: 0;
+        } 
+        .desc p{
+            color: #888;
+        }
+
+
+
+        .supporting-role{
+            padding: 160px 0;
+        }
+        .supporting-role h2{
+            text-align: center;
+            font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-weight: 700;
+            font-size: 40px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .supporting-role p{
+            text-align: center;
+            color: #777;
+        }
+        .supporting-role .role-line{
+            margin-left: auto;
+            margin-right: auto;
+            margin: 0 60px;
+            padding: 0;
+            margin-top: 60px;
+        }
+        
+        .role-line img{
+            width: 180px;
+            height: 180px;
+            border: 4px solid #ccc;
+            border-radius: 50%;
+            box-shadow: 3px 3px 8px rgba(192,192,192,0.8),-3px -3px 8px rgba(192,192,192,0.8)
+        }
+        .role-line li{
+            text-align: center;
+            position: relative;
+            padding-bottom: 125px;
+        }
+        .role-line li:nth-child(1){
+            text-align: center;
+            position: relative;
+            padding-top: 0;
+        }
+         .role-line li:last-child{
+            padding-bottom: 0;
+        } 
+        .role-line li:nth-child(odd) .role-intro{
+            position: absolute;
+            top: 0;
+            right: 50%;
+            margin-right: 120px;
+            text-align: right;
+            width: 300px;
+        }
+        .role-line li:nth-child(even) .role-intro{
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: 120px;
+            text-align: left;
+            width: 300px;
+        }
+        .role-line li::after{
+            content: '';
+            display: block;
+            margin-left: 1px;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            border-left: 2px solid orangered;
+            z-index: -1;
+        }
+        .role-intro  h4{
+            margin-top: 0;
+        }
+
+
+        .contact{
+            height: 100vh;
+            background: url(https://i.loli.net/2017/07/23/597496856846d.png);
+            background-size: cover;
+            padding-top: 40px;
+        }
+        .contact h2{
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 15px;
+            /* color: #fff; */
+        }
+        .contact p{
+            text-align: center;
+        }
+        .contact .form{
+            margin: 0 60px;
+            max-width: 1140px;
+            height: 400px;
+            margin-top: 120px;
+        }
+        .contact .infor{
+            width: 550px;
+        }
+        .infor input{
+            display: block;
+            width: 510px;
+            padding: 20px;
+            margin-bottom: 26px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .message{
+            width: 550px;
+            height: 218px;
+            margin-left: 38px;
+        }
+        .message textarea{
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            outline: 0;
+        }
+        input[type="button"]{
+            position: relative;
+            left:-60px;
+            margin-top: 40px;
+            margin-right: 20px;
+            font-weight: 700;
+            border-radius: 3px;
+            outline: 0;
+            border: 0;
+            font-size: 18px;
+            padding: 20px 40px;
+            background-color: rgb(0, 122, 204);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        footer{
+            font-size: 20px;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!--header有一个背景图  -->
+        <nav class=" clearfix">
+            <div class="logo fl">银魂</div>
+            <ul class="fr">
+                <li><a href="#">主要角色</a></li>
+                <li><a href="#">同人图片</a></li>
+                <li><a href="#">其他角色</a></li>
+                <li><a href="#">加入我们</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </nav>
+        <header>                
+            <div class="header-content">
+                <p>银魂</p>
+                <p>空知英秋</p>
+                <a href="#" class="header-btn">开始了解</a>
+                 <!-- 这个btn应该是a链接  -->
+            </div>
+        </header>
+        <main> 
+            <div class="main-character">
+                <h2>主要角色</h2>
+                <p>以下是主要角色的介绍</p>
+                <div class="main-character-list clearfix layout">
+                <!-- /*gintama kagura shinpachi*/ -->
+                    <div class="character gintama fl">
+                        <div class="avater"><img src="https://i.loli.net/2017/07/23/597447255e60a.jpg" alt="gintama"></div>
+                        <div class="intro">
+                            <h4>银时</h4>
+                            <p>坂田银时，日本动漫《银魂》中的主人公。他是活跃在攘夷后期创造无数传奇的革命家，因威震敌我而被称为“白夜叉”。现住歌舞伎町一条街，与神乐、志村新八经营万事屋，是个坚守自己武士道的男子汉。</p>
+                        </div>
+                    </div>
+                    <div class="character kagura fl">
+                        <div class="avater"><img src="https://i.loli.net/2017/07/23/597447744a692.jpg" alt="kagura"></div>
+                        <div class="intro">
+                            <h4>神乐</h4>
+                            <p>神乐是日本漫画家空知英秋作品《银魂的女主角。是宇宙最强的战斗种族“夜兔族”的一员。 为了打工赚钱而来到江户，但是被流氓利用雇佣，在厌倦了打斗逃出黑社会组织的时候遇到了银时与新八，之后留了在万事屋打工。</p>
+                        </div>
+                    </div>
+                    <div class="character shinpachi fl">
+                        <div class="avater"><img src="https://i.loli.net/2017/07/23/597447b97ccdc.jpg" alt="shinpachi"></div>
+                        <div class="intro">
+                            <h4>新八</h4>
+                            <p>志村新八，日本漫画家空知英秋作品《银魂》中的第二男主，坂田银时的“万事屋”成员之一。现还担任江户人气偶像寺门通的亲卫队队长，很爱他的姐姐阿妙，即使被说成姐控，喜欢姐姐的笑容，也想要姐姐能幸福。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="colleagues-picture">
+                <h2>同人图片</h2>
+                <p>以下是一些同人图片</p>
+                <ul class="img-list clearfix">
+                    <li class="desc fl">
+                        <a href="#"><img src="https://i.loli.net/2017/07/23/59745502df6a9.jpg" alt=""></a>
+                        <h4>银时</h4>
+                        <p>同人</p>
+                    </li>
+                    <li class="desc fl">
+                        <a href="#"><img src="https://i.loli.net/2017/07/23/59745503110d5.jpg" alt=""></a>    
+                        <h4>紫拉</h4>
+                        <p>同人</p>
+                    </li>
+                    <li class="desc fl">
+                        <a href="#"><img src="https://ooo.0o0.ooo/2017/07/23/59746978810ea.jpg" alt=""></a>    
+                        <h4>神乐</h4>
+                        <p>同人</p>
+                    </li>
+                    <li class="desc fl">
+                        <a href="#"><img src="https://i.loli.net/2017/07/23/59745503239f2.jpg" alt=""></a>
+                        <h4>月咏</h4>
+                        <p>同人</p>
+                    </li>
+                    <li class="desc fl">
+                        <a href="#"><img src="https://ooo.0o0.ooo/2017/07/23/597468a5e9b60.jpg" alt=""></a>
+                        <h4>MADAO</h4>
+                        <p>同人</p>
+                    </li>
+                    <li class="desc fl">
+                        <a href="#"><img src="https://i.loli.net/2017/07/23/597455034d99f.jpg" alt=""></a>
+                        <h4>十四</h4>
+                        <p>同人</p>
+                    </li>              
+                </ul>
+            </div>
+             <div class="supporting-role">
+                <h2>其他角色</h2>
+                <p>下面是一些颇受欢迎的其他角色</p>
+                <ol class="role-line">
+                    <li>
+                        <img src="https://gss0.bdstatic.com/94o3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=4ab89df50b24ab18e016e6310dc181f0/b3119313b07eca807de64134932397dda0448305.jpg" alt="定春">
+                        <div class="role-intro">
+                            <h4>定春</h4>
+                            <p>定春，是日本漫画家空知英秋作品《银魂》中的宠物角色，巨型生物，由美女巫女阿音和百音因无力饲养而放到万事屋门口，是主人公神乐收养的宇宙巨大生物，居住在万事屋。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="http://tse3.mm.bing.net/th?id=OIP.94En8ze0_MavZN3NQVRQIQEsDg&w=232&h=171&c=7&qlt=90&o=4&dpr=1.5&pid=1.7" alt="">
+                        <div class="role-intro">
+                            <h4>MADAO</h4>
+                            <p>长谷川泰三，日本动漫《银魂》中的人物。 长谷川泰三，假名为はせがわ たいぞう ，在TV版银魂16话中，长谷川泰三被神乐称为まるでダメなおっさん（简直是没有一点用处的大叔），简写为マダオ，即MADAO。后含义推广到泛指一切外表没有干劲儿，违反JUMP三大原则中“努力”原则（另外两项是友情和胜利）的人物。</p>
+                    </li>
+                    <li>
+                        <img src="http://tse2.mm.bing.net/th?id=OIP.z2lvOBsQqxDanwxBTm1hBwDADA&w=150&h=150&c=7&qlt=90&o=4&dpr=1.5&pid=1.7" alt="">
+                        <div class="role-intro">
+                            <h4>近藤勋</h4>
+                            <p>日本漫画家空知英秋漫画作品《银魂》中的主要男性人物，一手创建了警察组织真选组，职位是局长，被别人称为“大猩猩”。 剑术虽然高超，却深藏不露。死缠烂打着志村妙。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="http://tse3.mm.bing.net/th?id=OIP.E8hMQlKSHEhMVew6kaOapQDIDI&w=150&h=150&c=7&qlt=90&o=4&dpr=1.5&pid=1.7" alt="">
+                        <div class="role-intro">
+                            <h4>土方十四郎</h4>
+                            <p>土方十四郎，是日本漫画家空知英秋的作品《银魂》中的主要配角之一。是剧中的警察组织“真选组”副局长，制定了约束真选组员的“局中法度。严厉制裁犯罪分子，有“鬼之副长”之称。嗜好抽烟，爱吃蛋黄酱。是一个严格要求自己与部下的警察</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="http://tse3.mm.bing.net/th?id=OIP.isKgXmOxgpiFm0RYN2dwJADIDI&w=143&h=150&c=7&qlt=90&o=4&dpr=1.5&pid=1.7" alt="">
+                        <div class="role-intro">
+                            <h4>桂小太郎</h4>
+                            <p>日本漫画家空知英秋的作品《银魂》中的人物，攘夷战争的幸存者之一，与坂田银时、高杉晋助同为吉田松阳门下学生，战后转为攘夷志士，因其曾往“天人”的政府机关里扔炸弹而被看作是恐怖分子。作为攘夷志士的头目之一，桂小太郎逐渐从激进派转变为稳健派。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="http://tse4.mm.bing.net/th?id=OIP.OBpeLAHRfCeDGAReubzRgQDIDI&w=150&h=150&c=7&qlt=90&o=4&dpr=1.5&pid=1.7" alt="">
+                        <div class="role-intro">
+                            <h4>志村妙</h4>
+                            <p>志村妙，空知英秋的漫画作品《银魂》中的主要女性角色。本作女二号。天堂无心流道场“恒道场”馆主志村剑的长女，志村新八的姐姐。工作是陪酒女，美丽温柔的外表下隐藏是凶暴的脾气，发起脾气时任谁都害怕的存在。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="http://a2.att.hudong.com/08/68/20300543359298144176688257945_s.jpg" alt="">
+                        <div class="role-intro">
+                            <h4>月咏</h4>
+                            <p>空知英秋的漫画作品《银魂》中的女性角色之一。吉原自卫队“百华”的首领  ，原本以守护日轮为使命，被迫作为凤仙的手下保护吉原，最后与万事屋一伙协力解放了吉原，并成为了万事屋一伙的伙伴。</p>
+                        </div>
+                    </li>
+
+                </ol>
+            </div>
+            
+            <div class="contact">
+                <h2>联系我们</h2>
+                <p>讨论关于更多的剧情吧</p>
+                <div class="form">
+                    <form class="clearfix" action="">
+                        <div class="infor fl">
+                            <input type="text" placeholder="姓名">
+                            <input type="text" placeholder="电话">
+                            <input type="text" placeholder="邮箱">
+                        </div>
+                        <div class="message fl">
+                            <textarea placeholder="你的信息"></textarea>
+                        </div>
+                        <input class="send-btn" type="button" value="发送信息"> 
+                    </form>
+                </div>
+            </div> 
+        </main> 
+        <footer>
+            <span>Copyright&nbsp; © dcbryant &nbsp;&nbsp;&nbsp;&nbsp;2017/7/23</span>
+            
+        </footer>
+    </div>
+  
+</body>
+</html>
